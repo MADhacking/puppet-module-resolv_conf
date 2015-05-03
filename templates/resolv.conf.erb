@@ -6,11 +6,16 @@
 domain <%= @domain %>
 
 # The list of name servers
-<% [@nameservers].flatten.each do |server| -%>
+<% count = 1 
+[@nameservers].flatten.each do |server| -%>
 nameserver <%= server %>
-<% end -%>
+<% count += 1
+end -%>
 
 # The list of options
-<% [@options].flatten.each do |option| -%>
+<% if @timeout %>options timeout:<%= @timeout %><% end %>
+options attempts:<% if @attempts %><%= @attempts %><% else %><%= count %><% end %>
+<% if @rotate %>options rotate<% end %>
+<% if @options; [@options].flatten.each do |option| -%>
 options <%= option %>
-<% end -%>
+<% end; end -%>
